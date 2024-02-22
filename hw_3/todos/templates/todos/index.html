@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Lists</title>
+    </head>
+     <body>
+         <h1>My todolist</h1>
+         <ol>
+         {% for list in lists %}
+             <li>{{ list.title }}</li>
+         {% endfor %}
+         </ol>
+     </body>
+</html>
