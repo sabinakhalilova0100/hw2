@@ -1,0 +1,18 @@
+{% load static %}
+<html>
+    <head>
+        {% block head %}
+        {% endblock %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+        <script src="{% static 'js/bootstrao.bundle.min.js' %}"></script>
+    </head>
+        <body>
+
+            {% block content %}
+            {% endblock %}
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+        </body>
+
+</html>

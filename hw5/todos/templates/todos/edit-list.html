@@ -1,0 +1,175 @@
+
+<html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lists</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 50;
+            background-color: #FFC0CB;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 80px;
+            background-color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        }
+
+        button[type="submit"] {
+            background-color: #c85a79;
+            color: #fff;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #993366;
+        }
+
+
+    </style>
+
+    {% extends 'base.html' %}
+
+    {% block head %}
+         <title>{{ list.title }}</title>
+    {% endblock %}
+
+    {% block content %}
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-12">
+                      {% include 'header.html' %}
+                  </div>
+              </div>
+          </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        {% for msg in messages %}
+                           <p style="color: red;">{{msg}}</p>
+                        {% endfor %}
+                    </div>
+
+                <div class="row">
+                    <div class="col-8 offset-2">
+                        <h1>Edit {{ list.title }}</h1>
+                         <form action="{% url 'edit_list_page' pk=list.id %}" method="POST" class="my-2" autocomplete="off">
+                             {% csrf_token %}
+                             {% for field in form %}
+                                 <div class="mb-3">
+<!--                                     {{ field.label_tag }}-->
+                                     <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                          {{ field }}
+
+
+
+                         {% if field.errors|length > 0 %}
+                             <div class="text-danger">
+                                 {{ field.errors }}
+                             </div>
+                         {% endif %}
+
+                 </div>
+             {% endfor %}
+
+             <div>
+                 <div class="d-flex justify-content-end">
+                 <button class="btn btn-success" type="submit">Edit TodoList</button>
+                 </div>
+
+             </div>
+
+         </form>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h1>Todos</h1>
+
+
+                    </div>
+                      {% if lists|length > 0 %}
+                    <table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col">Title</th>
+      <th scope="col">Description</th>
+      <th scope="col">Date</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+
+            {% for list in lists %}
+
+
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ list.id }}</td>
+                <td>{{ list.title }}</td>
+                <td>{{ list.description }}</td>
+                <td>{{ list.due_date }}</td>
+                <td>{{ list.status }}</td>
+                   <td>
+
+
+
+                       <a href="{% url 'delete_list_page' pk=list.id %}">
+                           <button class="btn btn-danger">Delete</button>
+                       </a>
+                       <a href="{% url 'edit_list_page' pk=list.id %}">
+                         <button class="btn btn-primary">Edit</button>
+                       </a>
+
+                   </td>
+
+
+            </tr>
+                {% endfor %}
+
+  </tbody>
+</table>
+                           <ol>
+<!--                           {% for list in lists %}-->
+<!--                               <li>{{ list.title }}<a href="{% url 'delete_list_page' pk=list.id %}">-->
+<!--                                  <button>Delete</button>-->
+<!--                               </a>-->
+<!--                               </li>-->
+<!--                           {% endfor %}-->
+                           </ol>
+                           {% else %}
+                              <div class="col-12">
+                                   <p>Todos Not Found</p>
+                              </div>
+
+                           {% endif %}
+                </div>
+            </div>
+
+
+
+
+
+<!--          {% if lists|length > 0 %}-->
+<!--              <ol>-->
+<!--              {% for list in lists %}-->
+<!--                      <li>{{ list.title }}<a href="{% url 'delete_list_page' pk=list.id %}">-->
+<!--                          <button>Delete</button>-->
+<!--                      </a>-->
+<!--                      </li>-->
+<!--              {% endfor %}-->
+<!--              </ol>-->
+<!--          {% else %}-->
+<!--              <p>Todos Not Found</p>-->
+<!--          {% endif %}-->
+      {% include 'footer.html' %}
+    {% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>ToDos Page</title>
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            {% include 'header.html' %}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% for msg in messages %}
+            <p style="color: red;">{{msg}}</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <form action="{% url 'edit_list' pk=list.id %}" method="POST" class="my-4">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors|length > 0 %}
+                <div class="text-danger">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

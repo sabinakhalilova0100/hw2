@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>My Todolist</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            {% include 'header.html' %}
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Due_date</th>
+                    <th scope="col">Status</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% if orders|length > 0 %}
+                {% for order in orders %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ order.list.id }}</td>
+                    <td>{{ order.list.title}}</td>
+                    <td>{{ order.list.category.name}}</td>
+                    <td>{{ order.list.description }}</td>
+                    <td>{{ order.list.due_date }}</td>
+                    <td>{{ order.list.status }}</td>
+                        <a href="{% url 'delete_from_basket' pk=order.id %}" class="d-block mt-4">
+                            <button class="btn btn-danger">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">
+                        No products yet
+                    </td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
